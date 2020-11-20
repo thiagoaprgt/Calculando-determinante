@@ -17,7 +17,7 @@
             
             session_start();
 
-            if(!isset($_GET['ordem']) && !isset($_SESSION['ordem'])) {
+            if(empty($_GET['ordem']) && !isset($_SESSION['ordem'])) {
 
                 echo $this->getOrdem();
 
@@ -180,7 +180,56 @@
 
             $_SESSION['determinante'] = $_GET;            
             
-            print_r($_SESSION);                     
+            echo "<br>";
+            echo "<br>";
+
+
+            $this->determinante();
+
+            print_r($_SESSION); 
+
+            
+
+        }
+
+
+
+        public function determinante() {
+
+            $ordem = $_SESSION['ordem'];
+            $matriz = $_SESSION['determinante'];
+
+            $n = $ordem - 1;
+
+            $l =0;
+            $c =0;
+
+            foreach($matriz as $k => $v) {
+
+                if($c == $ordem) {
+                    $c = 0;
+                    $l++;
+
+                    echo "<br>";
+                    
+                }
+
+                $m[$l][$c] = $v;
+
+                echo $m[$l][$c];
+
+                $c++;
+
+            }
+
+            echo "<br>";
+            echo "<br>";
+
+
+            $_SESSION['determinante'] = $m;
+            
+            
+            return $_SESSION['determinante'];          
 
             
 
