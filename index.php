@@ -6,14 +6,11 @@
     require_once 'Library/Determinante.php';
 
 
-    
-
-
     $template = file_get_contents('templates/Home.html');
 
     ob_start();
 
-    $obj = new Library\Determinante(0); 
+    $obj = new Library\Determinante(); 
     
     
 
@@ -25,6 +22,9 @@
     $template = str_replace('{content}', $output, $template);
 
     echo $template;
+
+
+    
 
 
 

@@ -7,7 +7,7 @@
     class Determinante {
 
         
-        protected $matrix = array();
+        protected $matriz;
 
 
         public function __construct() {
@@ -16,47 +16,73 @@
 
             
             session_start();
-            
-            if( isset($_GET['ordem']) && !isset($_SESSION['ordem']) ) {
 
-                $_SESSION['ordem'] = $_GET['ordem'];
-
-                echo "A ordem do determinante é: " . $_SESSION['ordem'] . "<br>";
-
-                if($_SESSION['ordem'] <= 0) {
-
-                    exit("Digite um número maior que 0");
-
-                }
-
-            }else if ( !isset($_SESSION['ordem']) ) {
+            if(!isset($_GET['ordem']) && !isset($_SESSION['ordem'])) {
 
                 echo $this->getOrdem();
 
+                print_r($_SESSION);
+
+            }else {
+
+                
+
+                // call_user_func chama a função da classe através de um array, array(classe, função que será chamada da classe escolhida)
+
+                call_user_func( array($this, $_GET['function'] ) );                
+                
+                echo "<br>";                
+                
+                
+                $this->reiniciar();
+
+                //print_r($_SESSION);
+
+
+                
+
             }
 
 
-            if( isset($_SESSION['ordem']) ) {
 
-               echo $this->matrizQuadrada($_SESSION['ordem']);
-
-               
-
-            }
-
-
-            session_destroy();
-
+            
+            
             
 
         }
 
 
+        public function destroy() {
+
+            return session_destroy();
+
+        }
+
+
+        public function reiniciar() {
+
+            $form = file_get_contents('templates/Elementos_matriz.html');
+
+            $form = str_replace('{function}', 'destroy', $form);
+
+            $submit =  "<br>"." <input type=\"submit\" value=\"Reiniciar\"> ";
+
+            $form = str_replace('{elementos}', $submit, $form);            
+
+            echo $form;
+        }
+
+        
+
+       
+
         public function getOrdem() {
 
             
             
-            $form = " <form action=\"index.php\" method=\"get\"> ";                
+            $form = " <form action=\"index.php\" method=\"get\"> "; 
+            
+            $form .= "<input type=\"hidden\" name=\"function\" value=\"matrizQuadrada\" >";
 
             $label = "<label>Digite a ordem do Determinante </label>";
 
@@ -67,14 +93,20 @@
 
             $form .= $form . $label . $input . $submit . "</form>";
 
-            return $form;
+            echo $form;
 
             
 
         }
+
+
+        
         
 
-        public function matrizQuadrada($ordem) {
+        public function matrizQuadrada() {
+
+            $_SESSION['ordem'] = $_GET['ordem'];
+
 
             $form = file_get_contents('templates/Elementos_matriz.html');
 
@@ -88,6 +120,7 @@
 
             $linha = 0;
             $coluna = 0;
+            $ordem = $_SESSION['ordem'];
             $elementos = pow($ordem, 2);
             $n = $ordem - 1;
 
@@ -138,13 +171,32 @@
 
             }
 
+            $form = str_replace('{function}', 'getMatriz', $form);
+
             $form = str_replace('{elementos}', $fields.$submit, $form);
 
-            return $form;
+            echo $form;
             
 
            
         }
+
+        public function getMatriz() {
+
+            
+
+            unset($_GET['function']);            
+
+            $_SESSION['determinante'] = $_GET;            
+            
+            print_r($_SESSION);                     
+
+            
+
+        }
+
+
+        
 
         
 
