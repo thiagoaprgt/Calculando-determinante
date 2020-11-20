@@ -39,15 +39,8 @@
                 //print_r($_SESSION);
 
 
-                
-
             }
 
-
-
-            
-            
-            
 
         }
 
@@ -70,9 +63,7 @@
             $form = str_replace('{elementos}', $submit, $form);            
 
             echo $form;
-        }
-
-        
+        }        
 
        
 
