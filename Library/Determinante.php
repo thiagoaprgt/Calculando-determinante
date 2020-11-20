@@ -183,10 +183,9 @@
             echo "<br>";
             echo "<br>";
 
+            
 
-            $this->determinante();
-
-            print_r($_SESSION); 
+            $this->calculaDeterminanteLaplace();
 
             
 
@@ -229,9 +228,24 @@
             $_SESSION['determinante'] = $m;
             
             
-            return $_SESSION['determinante'];          
+            return $_SESSION['determinante'];         
 
             
+
+        }
+
+
+
+        public function calculaDeterminanteLaplace() {
+
+            $m = $this->determinante();
+
+            $ordem = $_SESSION['ordem'];
+
+            print_r($m);
+
+           
+
 
         }
 
