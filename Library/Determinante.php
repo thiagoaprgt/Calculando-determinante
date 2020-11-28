@@ -47,7 +47,10 @@
 
         public function destroy() {
 
-            return session_destroy();
+            session_destroy();
+
+            $this->getOrdem();
+
 
         }
 
@@ -171,6 +174,131 @@
 
            
         }
+        
+
+        // converte para o formato de matriz qualquer array genérico e mostra a matriz
+        
+        public function mostra_Matriz(Array $m) {
+
+            
+
+            $l =0;
+            $c =0;
+
+            $elementos = 0;
+
+            $ordem = 0;
+
+
+            print_r($m);
+
+            echo "<br>";
+            echo "<br>";           
+
+
+            foreach($m as $k => $v) {
+
+                $elementos++;
+            }
+
+            $ordem = pow($elementos, 0.5);
+
+            
+
+            
+            echo 'A ordem é: '. $ordem;
+
+            echo "<br>";
+            echo "<br>";
+
+            $matriz = array();
+
+            
+            echo "<br>";
+            echo "<br>";
+
+            foreach($m as $k => $v) {
+
+                if($c == $ordem) {
+                    $c = 0;
+                    $l++;
+
+                    echo "<br>";
+                    echo "<br>";
+                    
+                }
+
+                $matriz[$l][$c] = $v;
+
+                
+                echo $matriz[$l][$c] . " ";
+
+                $c++;
+
+            }
+
+            echo "<br>";
+            echo "<br>";
+
+            
+
+            $matriz = ['ordem' => $ordem, 'matriz' => $matriz];
+
+            
+            echo "<br>";
+            echo "<br>";
+
+            print_r($matriz);
+
+            return $matriz;
+
+
+        }
+
+        /**
+         * converte para o formato de matriz qualquer array genérico e não a mostra a matriz 
+         * pois não possui os echo e os print_r
+        */            
+        
+        public function matriz(Array $m) {
+
+            $l =0;
+            $c =0;
+            $elementos = 0;
+            $ordem = 0;
+
+            foreach($m as $k => $v) {
+
+                $elementos++;
+            }
+
+            $ordem = pow($elementos, 0.5); 
+            
+            $matriz = array();
+
+            foreach($m as $k => $v) {
+
+                if($c == $ordem) {
+                    $c = 0;
+                    $l++;
+                                        
+                }
+
+                $matriz[$l][$c] = $v;  
+
+                $c++;
+
+            }
+           
+            $matriz = ['ordem' => $ordem, 'matriz' => $matriz];
+
+            return $matriz;
+
+
+        }
+
+
+        // pega a matriz que foi enviada pela URL através do get
 
         public function getMatriz() {
 
@@ -185,69 +313,215 @@
 
             
 
-            $this->calculaDeterminanteLaplace();
+            $m = $this->mostra_Matriz($_SESSION['determinante']);  
+            
+            echo "<br>";
+            echo "<br>";
 
             
+
+            echo "Redutor de ordem Chió:";
+
+            echo "<br>";
+            echo "<br>";
+            
+            $this->Redutor_De_Ordem_Chio($m);
 
         }
 
 
 
-        public function determinante() {
+        
 
-            $ordem = $_SESSION['ordem'];
-            $matriz = $_SESSION['determinante'];
+        
 
-            $n = $ordem - 1;
+        public function Redutor_De_Ordem_Chio(Array $matriz) {
 
-            $l =0;
-            $c =0;
+            // Para usar Chio tem que haver algum elemento cujo valor seja igual 1
+           
+            echo "Antes da redução de ordem:";
 
-            foreach($matriz as $k => $v) {
+            echo "<br>";
+            echo "<br>";            
 
-                if($c == $ordem) {
-                    $c = 0;
-                    $l++;
+            $m = $matriz;            
+            
+            $linha = 0;
+            $coluna = 0;
+            
+            
+            if($m['ordem'] == 1) {
 
-                    echo "<br>";
+                
+
+                return $m[0][0];
+                
+            }else{
+
+                
+                
+                $determinante = $m['matriz'];
+
+                print_r($determinante);
+
+                echo "<br>";
+                echo "<br>"; 
+
+                //ira força o número 1 em um elemento da primeira linha
+
+                for ($i=0; $i < $m['ordem']; $i++) {   
+
+                    
+                    
+                    if($determinante[0][$i] != 0) {
+
+                        $coeficiente = $determinante[0][$i];
+
+                        $linha = 0;
+                        $coluna = $i;
+
+
+                        break;
+    
+
+                    }
+
+                    
+
+                }      
+                
+                
+                echo "Coeficiente: " . $coeficiente;                
+                echo "<br>";
+                echo "Linha: " . $linha;
+                echo "<br>"; 
+                echo "Coluna: " . $coluna;
+
+                echo "<br>";
+                echo "<br>";
+
+                
+                
+
+                for ($i=0; $i < $m['ordem']; $i++) {  
+                    
+                    // analisando as colunas
+                    
+                    $determinante[0][$i] = $m['matriz'][0][$i] / $coeficiente;                    
+
+                
+                }
+
+
+                echo "Analisando o determinante parte 1";
+
+                echo "<br>";
+                echo "<br>";
+
+
+                print_r($determinante);
+
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+
+
+                
+
+                // aplicando a regra de Chió
+
+                $l = array();
+                $c = array(); 
+                
+                
+                // ---------------- daqui pra cima esta certo ---------------------
+                
+                
+                                  
+                
+
+                // $chio[$i][$j] = $determinante[$i+1][$j+1] - (  $determinante[0][$j] * $determinante[$i][0]   ) 
+
+                $chio = array();
+
+                for ($i=0; $i < $m['ordem']; $i++) {
+                    
+                    for ($j=0; $j < $m['ordem'] ; $j++) { 
+
+                        if($i == $linha) {
+
+                            $l[] = $determinante[$i][$j];
+
+                        }
+
+                        if($j == $coluna) {
+                            
+                            $c[] = $determinante[$i][$j];
+
+                        }
+
+
+                        
+                        if($i != $linha && $j != $coluna) {
+
+                            $chio[] = $determinante[$i][$j];
+
+                        }
+                                        
+
+                    }
                     
                 }
 
-                $m[$l][$c] = $v;
 
-                echo $m[$l][$c];
+                echo "Depois da redução de ordem:";
 
-                $c++;
+                echo "<br>";
+                echo "<br>";
+
+
+                print_r($l);
+
+                echo "<br>";
+                echo "<br>";
+
+                print_r($c);
+                
+                echo "<br>";
+                echo "<br>";
+
+                print_r($chio);
+                
+                echo "<br>";
+                echo "<br>";
+
+
+
+                // ---------------- daqui pra cima esta certo ---------------------
+                
+
+                
+
 
             }
 
-            echo "<br>";
-            echo "<br>";
-
-
-            $_SESSION['determinante'] = $m;
-            
-            
-            return $_SESSION['determinante'];         
 
             
+
+            
+
+            
+            
+
+            
+
+            
+
 
         }
 
-
-
-        public function calculaDeterminanteLaplace() {
-
-            $m = $this->determinante();
-
-            $ordem = $_SESSION['ordem'];
-
-            print_r($m);
-
-           
-
-
-        }
+        
 
 
         
