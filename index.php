@@ -1,5 +1,7 @@
 <?php
 
+    // foi adotado o design patter Front Controller 
+
     use Library\Determinante;
     
 
@@ -10,8 +12,7 @@
 
     ob_start();
 
-    $obj = new Library\Determinante(); 
-    
+    $obj = new Library\Determinante();     
     
 
     $output = ob_get_contents();
