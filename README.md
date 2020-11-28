@@ -5,5 +5,6 @@
  
  Próximos objetivos:
  
-  melhorar o CSS;
-  mehorar o código;
+  Melhorar o CSS;
+  
+  Mehorar o código, adaptando para as PSR;
