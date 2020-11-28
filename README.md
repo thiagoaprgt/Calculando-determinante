@@ -1,6 +1,9 @@
 # Calculando-determinante
  Calculando um determinante de ordem N usando o PHP, usando sessões
  
- Bug no botão que destrói a sesssão.
+ Já está funcionando corretamente;
  
- Estou pensando o se uso a solução de Laplace ou Chió para redução da ordem do Determinante
+ Próximos objetivos:
+ 
+  melhorar o CSS;
+  mehorar o código;
