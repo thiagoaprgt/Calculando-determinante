@@ -441,7 +441,7 @@
                                   
                 
 
-                // $chio[$i][$j] = $determinante[$i+1][$j+1] - (  $determinante[0][$j] * $determinante[$i][0]   ) 
+                
 
                 $chio = array();
 
@@ -508,14 +508,6 @@
 
 
             
-
-            
-
-            
-            
-
-            
-
             
 
 
@@ -523,12 +515,6 @@
 
         
 
-
-        
-
-        
-
-        
         
     }
 
