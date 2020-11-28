@@ -324,8 +324,22 @@
 
             echo "<br>";
             echo "<br>";
+
+             /**
+                 * A variável coeficiente_final é um número inteiro será usado para multiplicar o resultado da
+                 * última iteração da regra de chio, pois caso o determinante não um elemento com o
+                 * valor igual a 1 na linha então é necessário dividir os elementos do Determinante 
+                 * para forçar o elemento de valor igual a 1.
+                 * Portanto no final das iterações será necessário fazer o reajuste no cálculo final
+                 * do determinante, esse ajuste é feito pela variável coeficiente_final
+            */  
+
+
+                                
+                
+                $coeficiente_final = 1;
             
-            $this->Redutor_De_Ordem_Chio($m);
+            $this->Redutor_De_Ordem_Chio($m, 1);
 
         }
 
@@ -335,7 +349,7 @@
 
         
 
-        public function Redutor_De_Ordem_Chio(Array $matriz) {
+        public function Redutor_De_Ordem_Chio(Array $matriz, int $coeficiente_final) {
 
             // Para usar Chio tem que haver algum elemento cujo valor seja igual 1
            
@@ -352,12 +366,22 @@
             
             if($m['ordem'] == 1) {
 
-                
+                /**
+                 * o coeficiente_final será usado para multiplicar o resultado da
+                 * última iteração da regra de chio
+                */                  
 
-                return $m[0][0];
+                $resultado = $m['matriz'][0][0] * $coeficiente_final;
+
+                echo "Coeficiente final: " . $coeficiente_final;
+
+                echo "<br>";
+
+                echo "O resultado do Determinante é: " . $resultado;
+
+                return $resultado;
                 
             }else{
-
                 
                 
                 $determinante = $m['matriz'];
@@ -388,10 +412,25 @@
 
                     
 
-                }      
+                } 
+                
+                
+
+                /**
+                 * o coeficiente_final será usado para multiplicar o resultado da
+                 * última iteração da regra de chio
+                */  
+
+
+                                
+                
+                $coeficiente_final *= $coeficiente;                
+                
                 
                 
                 echo "Coeficiente: " . $coeficiente;                
+                echo "<br>";
+                echo "Coeficiente final: " . $coeficiente_final;                
                 echo "<br>";
                 echo "Linha: " . $linha;
                 echo "<br>"; 
@@ -399,6 +438,9 @@
 
                 echo "<br>";
                 echo "<br>";
+
+
+                
 
                 
                 
@@ -411,6 +453,9 @@
 
                 
                 }
+
+
+                
 
 
                 echo "Analisando o determinante parte 1";
@@ -426,20 +471,14 @@
                 echo "<br>";
                 echo "<br>";
 
-
-                
-
-                // aplicando a regra de Chió
-
-                $l = array();
-                $c = array(); 
+                 
                 
                 
                 // ---------------- daqui pra cima esta certo ---------------------
                 
                 
                                   
-                
+                // aplicando a regra de Chió
 
                 
 
@@ -449,23 +488,16 @@
                     
                     for ($j=0; $j < $m['ordem'] ; $j++) { 
 
-                        if($i == $linha) {
-
-                            $l[] = $determinante[$i][$j];
-
-                        }
-
-                        if($j == $coluna) {
-                            
-                            $c[] = $determinante[$i][$j];
-
-                        }
-
-
                         
                         if($i != $linha && $j != $coluna) {
+                            
 
-                            $chio[] = $determinante[$i][$j];
+                            $det[] = $determinante[$i][$j];
+                           
+
+                            $chio[] = $determinante[$i][$j] -( $determinante[$linha][$j] * $determinante[$i][$coluna] );
+
+                            
 
                         }
                                         
@@ -475,33 +507,68 @@
                 }
 
 
+                // Vai permitir a usar recursividade pois deixará o array no formato certo
+
+                $chio = $this->mostra_Matriz($chio);
+
+
+
+                // Debug                
+
+
                 echo "Depois da redução de ordem:";
 
                 echo "<br>";
                 echo "<br>";
 
+               
 
-                print_r($l);
-
+                echo "Para Debug: Matriz em processo de redução de ordem: ";
                 echo "<br>";
-                echo "<br>";
-
-                print_r($c);
+                print_r($det);
                 
                 echo "<br>";
                 echo "<br>";
+
+                echo "Redução de Chió Completa: ";
+                echo "<br>";                
 
                 print_r($chio);
+
+
+                echo "<br>";
+                echo "<br>";
+
+                echo "---------------------------------------------------------";
+
+                echo "<br>";
+
+                echo "Nova redução de ordem do Determinante";
+
+                echo "<br>";
+
+                echo "---------------------------------------------------------";
+
+
+                echo "<br>";
+                echo "<br>";
+
+
                 
-                echo "<br>";
-                echo "<br>";
+
+
 
 
 
                 // ---------------- daqui pra cima esta certo ---------------------
-                
+
+                // Usando a recursidade para chegar na matriz de ordem 1
 
                 
+
+                $this->Redutor_De_Ordem_Chio($chio, $coeficiente_final);
+
+                 
 
 
             }

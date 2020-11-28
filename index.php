@@ -12,11 +12,11 @@
 
     ob_start();
 
-    $obj = new Library\Determinante();     
+    $obj = new Library\Determinante();   
     
 
     $output = ob_get_contents();
-    
+
 
     ob_end_clean();
 
