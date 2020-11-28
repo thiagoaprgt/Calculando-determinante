@@ -413,18 +413,46 @@
                     
 
                 } 
+
+
+                /**
+                 * A regra de Chió só ser aplicado no elemento que está primeira linha e na primeira coluna cujo valor é igual a 1.
+                 * Como nem todos o determinante vão satisfazer essa condição, será nesse inverter algumas fileiras (linha ou coluna)
+                 * e também dividir as  fileiras para forçar que o primeiro elemento do determinante tenha valor igual a 1.
+                 * 
+                 * Logo serão usados as propriedades do determinante:
+                 *  Uma fileira (linha ou coluna) nula resulta em um determinante de valor igual a zero;
+                 *  Para cada inversão de fileiro inverte-se o sinal do valor do determinante;
+                 *  Multiplicar uma fileira por valor faz com o resultado do determinante seja multiplicado pelo mesmo valor
+                */
+
+                
+                
                 
                 
 
                 /**
                  * o coeficiente_final será usado para multiplicar o resultado da
                  * última iteração da regra de chio
+                 * 
                 */  
 
 
+                /**
+                 * Inversão de fileira.
+                 * Só a primeira linha será válidada, pois se todos os elementos dela forem nulos então o 
+                 * determinante será nulo.
+                 * Caso o primeiro seja zero e os outros diferente de zero então será necessário uma inversão
+                 * que matematicamente signica multiplicar o valor do determinante pelo valor -1
+                 * 
+                */
+
+                $fileira = $linha + $coluna;
+
+                $inverte_fileira = ( $fileira == 0 ) ? 1 : -1;
                                 
                 
-                $coeficiente_final *= $coeficiente;                
+                $coeficiente_final *= $inverte_fileira * $coeficiente;                
                 
                 
                 
