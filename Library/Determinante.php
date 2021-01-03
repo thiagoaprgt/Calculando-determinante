@@ -393,6 +393,8 @@
 
                 //ira força o número 1 em um elemento da primeira linha
 
+                $soma_de_elementos = 0;
+
                 for ($i=0; $i < $m['ordem']; $i++) {   
 
                     
@@ -409,192 +411,217 @@
     
 
                     }
+                    
+                    // Como a primeira linha só apresenta elementos igual a 0 então a matriz 1x1 resultado da reduções por chió será um elemento nulo
+                    // poís o determinante tem que ser zero pois a primeira fileira é nula
+                    // logo se todos os elementos são zero a soma de todos os elemento tem que ser zero
+
+                    $soma_de_elementos += $determinante[0][$i];
 
                     
 
                 } 
 
+                if($soma_de_elementos == 0 ) {
 
-                /**
-                 * A regra de Chió só ser aplicado no elemento que está primeira linha e na primeira coluna cujo valor é igual a 1.
-                 * Como nem todos o determinante vão satisfazer essa condição, será nesse inverter algumas fileiras (linha ou coluna)
-                 * e também dividir as  fileiras para forçar que o primeiro elemento do determinante tenha valor igual a 1.
-                 * 
-                 * Logo serão usados as propriedades do determinante:
-                 *  Uma fileira (linha ou coluna) nula resulta em um determinante de valor igual a zero;
-                 *  Para cada inversão de fileiro inverte-se o sinal do valor do determinante;
-                 *  Multiplicar uma fileira por valor faz com o resultado do determinante seja multiplicado pelo mesmo valor
-                */
+                    $resultado = 0;
 
-                
-                
-                
-                
+                    echo "Coeficiente final: " . $coeficiente_final;
 
-                /**
-                 * o coeficiente_final será usado para multiplicar o resultado da
-                 * última iteração da regra de chio
-                 * 
-                */  
+                    echo "<br>";
+    
+                    echo "O resultado do Determinante é: " . $resultado;
+    
+                    return $resultado;
+
+                }else{
 
 
-                /**
-                 * Inversão de fileira.
-                 * Só a primeira linha será válidada, pois se todos os elementos dela forem nulos então o 
-                 * determinante será nulo.
-                 * Caso o primeiro seja zero e os outros diferente de zero então será necessário uma inversão
-                 * que matematicamente signica multiplicar o valor do determinante pelo valor -1
-                 * 
-                */
-
-                $fileira = $linha + $coluna;
-
-                $inverte_fileira = ( $fileira == 0 ) ? 1 : -1;
-                                
-                
-                $coeficiente_final *= $inverte_fileira * $coeficiente;                
-                
-                
-                
-                echo "Coeficiente: " . $coeficiente;                
-                echo "<br>";
-                echo "Coeficiente final: " . $coeficiente_final;                
-                echo "<br>";
-                echo "Linha: " . $linha;
-                echo "<br>"; 
-                echo "Coluna: " . $coluna;
-
-                echo "<br>";
-                echo "<br>";
 
 
-                
+                    /**
+                     * A regra de Chió só ser aplicado no elemento que está primeira linha e na primeira coluna cujo valor é igual a 1.
+                     * Como nem todos o determinante vão satisfazer essa condição, será nesse inverter algumas fileiras (linha ou coluna)
+                     * e também dividir as  fileiras para forçar que o primeiro elemento do determinante tenha valor igual a 1.
+                     * 
+                     * Logo serão usados as propriedades do determinante:
+                     *  Uma fileira (linha ou coluna) nula resulta em um determinante de valor igual a zero;
+                     *  Para cada inversão de fileiro inverte-se o sinal do valor do determinante;
+                     *  Multiplicar uma fileira por valor faz com o resultado do determinante seja multiplicado pelo mesmo valor
+                    */
 
-                
-                
-
-                for ($i=0; $i < $m['ordem']; $i++) {  
                     
-                    // analisando as colunas
                     
-                    $determinante[0][$i] = $m['matriz'][0][$i] / $coeficiente;                    
-
-                
-                }
-
-
-                
-
-
-                echo "Analisando o determinante parte 1";
-
-                echo "<br>";
-                echo "<br>";
-
-
-                print_r($determinante);
-
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-
-                 
-                
-                
-                // ---------------- daqui pra cima esta certo ---------------------
-                
-                
-                                  
-                // aplicando a regra de Chió
-
-                
-
-                $chio = array();
-
-                for ($i=0; $i < $m['ordem']; $i++) {
                     
-                    for ($j=0; $j < $m['ordem'] ; $j++) { 
+                    
 
+                    /**
+                     * o coeficiente_final será usado para multiplicar o resultado da
+                     * última iteração da regra de chio
+                     * 
+                    */  
+
+
+                    /**
+                     * Inversão de fileira.
+                     * Só a primeira linha será válidada, pois se todos os elementos dela forem nulos então o 
+                     * determinante será nulo.
+                     * Caso o primeiro seja zero e os outros diferente de zero então será necessário uma inversão
+                     * que matematicamente signica multiplicar o valor do determinante pelo valor -1
+                     * 
+                    */
+
+                    $fileira = $linha + $coluna;
+
+                    $inverte_fileira = ( $fileira == 0 ) ? 1 : -1;
+                                    
+                    
+                    $coeficiente_final *= $inverte_fileira * $coeficiente;                
+                    
+                    
+                    
+                    echo "Coeficiente: " . $coeficiente;                
+                    echo "<br>";
+                    echo "Coeficiente final: " . $coeficiente_final;                
+                    echo "<br>";
+                    echo "Linha: " . $linha;
+                    echo "<br>"; 
+                    echo "Coluna: " . $coluna;
+
+                    echo "<br>";
+                    echo "<br>";
+
+
+                    
+
+                    
+                    
+
+                    for ($i=0; $i < $m['ordem']; $i++) {  
                         
-                        if($i != $linha && $j != $coluna) {
+                        // analisando as colunas
+                        
+                        $determinante[0][$i] = $m['matriz'][0][$i] / $coeficiente;                    
+
+                    
+                    }
+
+
+                    
+
+
+                    echo "Analisando o determinante parte 1";
+
+                    echo "<br>";
+                    echo "<br>";
+
+
+                    print_r($determinante);
+
+                    echo "<br>";
+                    echo "<br>";
+                    echo "<br>";
+                    echo "<br>";
+
+                    
+                    
+                    
+                    // ---------------- daqui pra cima esta certo ---------------------
+                    
+                    
+                                    
+                    // aplicando a regra de Chió
+
+                    
+
+                    $chio = array();
+
+                    for ($i=0; $i < $m['ordem']; $i++) {
+                        
+                        for ($j=0; $j < $m['ordem'] ; $j++) { 
+
+                            
+                            if($i != $linha && $j != $coluna) {
+                                
+
+                                $det[] = $determinante[$i][$j];
                             
 
-                            $det[] = $determinante[$i][$j];
-                           
+                                $chio[] = $determinante[$i][$j] -( $determinante[$linha][$j] * $determinante[$i][$coluna] );
 
-                            $chio[] = $determinante[$i][$j] -( $determinante[$linha][$j] * $determinante[$i][$coluna] );
+                                
 
-                            
+                            }
+                                            
 
                         }
-                                        
-
+                        
                     }
+
+
+                    // Vai permitir a usar recursividade pois deixará o array no formato certo
+
+                    $chio = $this->mostra_Matriz($chio);
+
+
+
+                    // Debug                
+
+
+                    echo "Depois da redução de ordem:";
+
+                    echo "<br>";
+                    echo "<br>";
+
+                
+
+                    echo "Para Debug: Matriz em processo de redução de ordem: ";
+                    echo "<br>";
+                    print_r($det);
                     
+                    echo "<br>";
+                    echo "<br>";
+
+                    echo "Redução de Chió Completa: ";
+                    echo "<br>";                
+
+                    print_r($chio);
+
+
+                    echo "<br>";
+                    echo "<br>";
+
+                    echo "---------------------------------------------------------";
+
+                    echo "<br>";
+
+                    echo "Nova redução de ordem do Determinante";
+
+                    echo "<br>";
+
+                    echo "---------------------------------------------------------";
+
+
+                    echo "<br>";
+                    echo "<br>";
+
+
+                    
+
+
+
+
+
+                    // ---------------- daqui pra cima esta certo ---------------------
+
+                    // Usando a recursidade para chegar na matriz de ordem 1
+
+                    
+
+                    $this->Redutor_De_Ordem_Chio($chio, $coeficiente_final);
+
+
                 }
-
-
-                // Vai permitir a usar recursividade pois deixará o array no formato certo
-
-                $chio = $this->mostra_Matriz($chio);
-
-
-
-                // Debug                
-
-
-                echo "Depois da redução de ordem:";
-
-                echo "<br>";
-                echo "<br>";
-
-               
-
-                echo "Para Debug: Matriz em processo de redução de ordem: ";
-                echo "<br>";
-                print_r($det);
-                
-                echo "<br>";
-                echo "<br>";
-
-                echo "Redução de Chió Completa: ";
-                echo "<br>";                
-
-                print_r($chio);
-
-
-                echo "<br>";
-                echo "<br>";
-
-                echo "---------------------------------------------------------";
-
-                echo "<br>";
-
-                echo "Nova redução de ordem do Determinante";
-
-                echo "<br>";
-
-                echo "---------------------------------------------------------";
-
-
-                echo "<br>";
-                echo "<br>";
-
-
-                
-
-
-
-
-
-                // ---------------- daqui pra cima esta certo ---------------------
-
-                // Usando a recursidade para chegar na matriz de ordem 1
-
-                
-
-                $this->Redutor_De_Ordem_Chio($chio, $coeficiente_final);
 
                  
 
