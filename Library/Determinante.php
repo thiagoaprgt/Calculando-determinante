@@ -412,8 +412,8 @@
 
                     }
                     
-                    // Como a primeira linha só apresenta elementos igual a 0 então a matriz 1x1 resultado da reduções por chió será um elemento nulo
-                    // poís o determinante tem que ser zero pois a primeira fileira é nula
+                    // Se a primeira linha só apresentar elementos igual a 0 então a matriz 1x1 resultado da reduções por chió será um elemento nulo
+                    // poís o determinante tem que ser zero pois a primeira linha é nula
                     // logo se todos os elementos são zero a soma de todos os elemento tem que ser zero
 
                     $soma_de_elementos += $determinante[0][$i];
